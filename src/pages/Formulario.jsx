@@ -1,76 +1,76 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+
 export const Formulario = () => {
-    const [inputValue,setInputValue] = useState("")
+    const [inputValue, setInputValue] = useState({
+        name: "",
+        email: "",
+        phone: "",
+        address: ""
+    })
+
+
+    async function postContact(event) {
+        console.log(inputValue);        
+        event.preventDefault()
+        await fetch("https://playground.4geeks.com/contact/agendas/lorena/contacts", {
+            method: "POST", // Accion / Metodo usado
+            body: JSON.stringify(inputValue), // Lo que se envia
+            headers: { "Content-type": "application/json" } // El tipo de informacion que se envia
+        })
+    }
+
+    
+
+
+
+
+
 
     return (
-        <form className="row g-3 needs-validation" novalidate>
+        <form className="row g-3 needs-validation" onSubmit={postContact} >
             <h2>Add a new contact</h2>
-            <div className="col-md-12">
-                <label htmlFor="validationCustom01" className="form-label">Full name</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    id="validationCustom01"
-                    value= {inputValue} onChange={handleOnchange}/>
-                <div className="valid-feedback"></div>
+            <div className="col-md-12 px-4">
+                <label htmlFor="validationCustomUsername" className="form-label ">Name</label>
+                <div className="input-group ">
+                    <input type="text" onChange={e => setInputValue({ ...inputValue, name: e.target.value })
+                    } value={inputValue.name}  placeholder="Name" className="w-100"/>
+                    
+                </div>
 
-
-            </div>
-
-            <div className="col-md-12">
                 <label htmlFor="validationCustomUsername" className="form-label">Email</label>
-                <div className="input-group has-validation">
-                    <span className="input-group-text" id="inputGroupPrepend">@</span>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="validationCustomUsername"
-                        aria-describedby="inputGroupPrepend" required />
-                    <div className="invalid-feedback">
-                    </div>
+                <div className="input-group  w-full">
+                    <input type="text" onChange={e => setInputValue({ ...inputValue, email: e.target.value })
+                    } value={inputValue.email}  placeholder="email" className="w-100"/>
+                    
+                </div>
+
+                <label htmlFor="validationCustomUsername" className="form-label">Phone</label>
+                <div className="input-group  w-full">
+
+                    <input type="number" onChange={e => setInputValue({...inputValue, phone: e.target.value}) 
+                    } value={inputValue.phone} placeholder="phone" className="w-100"/>
+                   
+                </div>
+
+                <label htmlFor="validationCustomUsername" className="form-label">Address</label>
+                <div className="input-group  w-full">
+
+                    <input type="text" onChange={e => setInputValue({...inputValue, address: e.target.value})
+                    } value={inputValue.address} placeholder="address" className="w-100"/>
+                    
                 </div>
 
             </div>
 
-            <div className="mb-12">
-                <label htmlFor="telefono" className="form-label">Teléfono</label>
-                <input
-                    type="number"
-                    className="form-control"
-                    id="telefono"
-                    pattern="[0-9]{10}"
 
-                />
+            <div className="col-12 px-4">
+                <button className="btn btn-primary w-100" type="submit">Save</button>
             </div>
-
-
-            <div className="col-md-12">
-                <label htmlFor="validationCustom03" className="form-label">Address</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    id="validationCustom03" required />
-
-            </div>
-
-
-            <div className="col-12">
-
-                <button className="btn btn-primary" type="submit">Save</button>
-            </div>
-         
 
             <Link to="/">
-                <button className="btn btn-primary">Home</button>
+               <p class="link-opacity-100">Or get back to contacts</p>
             </Link>
         </form>
     )
 };
-
-
-
-
-
-
-
